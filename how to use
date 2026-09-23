@@ -1,0 +1,24 @@
+1.Avvia l'infrastruttura con Terraform:
+Passaggio 1. Spostati nella cartella di Terraform e crea il container Docker:
+cd terraform
+terraform init
+terraform apply -auto-approve
+cd ..
+Verifica: Il comando docker ps mostrerà il container iac-target-server attivo con le porte 2222 e 8080 mappate.
+
+2.Configura il webserver con Ansible:
+Passaggio 2. Spostati nella cartella di Ansible ed esegui il playbook per installare e avviare il server web nel container:
+cd ansible
+ansible-playbook -i inventory.ini playbook.yml
+cd ..
+Verifica: L'output finale di Ansible mostrerà failed=0.
+
+3.Verifica il funzionamento del sito:
+Passaggio 3. Testa la risposta del server web da terminale o tramite browser:Bashcurl -I http://localhost:8080
+Verifica: Riceverai una risposta HTTP/1.1 200 OK e aprendo http://localhost:8080 sul browser vedrai la pagina web.
+
+4.Pulizia dell'ambiente (quando hai finito):
+Passaggio 4. Per distruggere il container e ripulire le risorse create:Bashcd terraform
+terraform destroy -auto-approve
+cd ..
+Verifica: Il comando docker ps -a confermerà che il container è stato completamente rimosso.
