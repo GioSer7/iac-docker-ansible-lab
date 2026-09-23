@@ -1,0 +1,60 @@
+PROGETTO Infrastructure as Code (IaC): AUTOMAZIONE DI PROVISIONING E CONFIGURATION MANAGEMENT
+
+ELEVATOR PITCH
+"Per dimostrare le mie competenze nell'ambito DevOps e Cloud Administration, ho realizzato un laboratorio locale di Infrastructure as Code (IaC). Il progetto automatizza il ciclo di vita completo di un server web: dalla creazione dell'infrastruttura virtuale con Terraform alla configurazione software automatizzata con Ansible, fino al deploy di un'applicazione web su Docker."
+
+
+TECH STACK E RUOLO DEI COMPONENTI
+
+- Host OS: Linux Mint
+  Ruolo: Ambiente di sviluppo e orchestrazione locale.
+
+- Container Runtime: Docker CE
+  Ruolo: Piattaforma di containerizzazione per l'ambiente target.
+
+- Provisioning (IaC): Terraform
+  Ruolo: Definizione dichiarativa di immagini, container e mappature di rete.
+
+- Configuration Management: Ansible
+  Ruolo: Automazione installazione pacchetti (Nginx, Curl) e deploy file web.
+
+- Sicurezza e Accesso: SSH (Ed25519)
+  Ruolo: Autenticazione sicura tramite coppia di chiavi crittografiche.
+
+
+ARCHITETTURA DI RETE E MAPPATURA PORTE
+
+- Container Target: Ubuntu Linux
+- Mappatura SSH: Host porta 2222 -> Container porta 22 (Accesso per Ansible e amministrazione)
+- Mappatura Web: Host porta 8080 -> Container porta 80 (Esposizione servizio Nginx per l'utente)
+
+
+FLUSSO DI LAVORO (IaC WORKFLOW)
+
+Generazione Credenziali Sicure:
+Creazione di una chiave SSH dedicata Ed25519 per l'accesso non presidiato.
+
+Provisioning Infrastrutturale (Terraform):
+   - Creazione dinamica dell'immagine Docker personalizzata con servizio SSH.
+   - Istanziazione del container iac-target-server.
+   - Esposizione automatizzata delle porte 2222 e 8080.
+   - Generazione degli output di connessione (outputs.tf).
+
+Configuration Management (Ansible):
+   - Definizione dell'inventario (inventory.ini) e parametri di sicurezza (ansible.cfg).
+   - Esecuzione del Playbook (playbook.yml): aggiornamento cache APT, installazione Nginx/Curl, deploy della pagina HTML e avvio del servizio web.
+
+
+PUNTI DI FORZA TECNICI DA EVIDENZIARE ALLA COMMISSIONE
+
+Separazione delle Responsabilita (SoD):
+Terraform gestisce cosa deve esistere (Infrastruttura), mentre Ansible gestisce come deve essere configurato (Software e Servizi).
+
+Idempotenza e Riproducibilita:
+L'intero ambiente puo essere distrutto e ricostruito da zero in meno di 30 secondi mantenendo esattamente lo stesso stato desiderato.
+
+Sicurezza per Design:
+Nessuna password inserita nei file di codice; l'accesso avviene esclusivamente via chiave asimmetrica SSH.
+
+Prontezza al Cloud (Cloud Readiness):
+L'architettura e la logica utilizzate sono identiche a quelle impiegate su provider Cloud pubblici come AWS, Azure o Google Cloud.

@@ -1,0 +1,26 @@
+#cartella di progetto con le sottocartelle ed entra dentro
+mkdir -p ~/iac-lab/terraform ~/iac-lab/ansible
+cd ~/iac-lab
+
+#file vuoti per la documentazione e il codice
+touch README.md .gitignore
+touch terraform/main.tf terraform/variables.tf terraform/outputs.tf
+touch ansible/ansible.cfg ansible/inventory.ini ansible/playbook.yml
+
+#popolazione automatica del file .gitignore
+cat << 'EOF' > .gitignore
+# Terraform state e file temporanei
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+.terraform.lock.hcl
+
+#chiavi SSH e file sensibili
+*.pem
+*.key
+id_rsa*
+EOF
+
+#mostro la struttura creata per verifica
+find . -not -path '*/.*'

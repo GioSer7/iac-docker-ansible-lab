@@ -1,0 +1,29 @@
+---
+- name: Configurazione e Deploy Server Web
+  hosts: webservers
+  become: true
+
+  tasks:
+    - name: Aggiorna la cache dei pacchetti APT
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Installa Nginx e Curl
+      ansible.builtin.apt:
+        name:
+          - nginx
+          - curl
+        state: present
+
+    - name: Deploy della pagina Web di benvenuto
+      ansible.builtin.copy:
+        src: files/index.html
+        dest: /var/www/html/index.html
+        mode: '0644'
+
+    - name: Avvia il servizio Nginx
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        use: service
