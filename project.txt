@@ -1,0 +1,39 @@
+TECH STACK E RUOLO DEI COMPONENTI
+
+- Host OS: Linux Mint
+  Ruolo: Ambiente di sviluppo e orchestrazione locale.
+
+- Container Runtime: Docker CE
+  Ruolo: Piattaforma di containerizzazione per l'ambiente target.
+
+- Provisioning (IaC): Terraform
+  Ruolo: Definizione dichiarativa di immagini, container e mappature di rete.
+
+- Configuration Management: Ansible
+  Ruolo: Automazione installazione pacchetti (Nginx, Curl) e deploy file web.
+
+- Sicurezza e Accesso: SSH (Ed25519)
+  Ruolo: Autenticazione sicura tramite coppia di chiavi crittografiche.
+
+
+ARCHITETTURA DI RETE E MAPPATURA PORTE
+
+- Container Target: Ubuntu Linux
+- Mappatura SSH: Host porta 2222 -> Container porta 22 (Accesso per Ansible e amministrazione)
+- Mappatura Web: Host porta 8080 -> Container porta 80 (Esposizione servizio Nginx per l'utente)
+
+
+FLUSSO DI LAVORO (IaC WORKFLOW)
+
+Generazione Credenziali Sicure:
+Creazione di una chiave SSH dedicata Ed25519 per l'accesso non presidiato.
+
+Provisioning Infrastrutturale (Terraform):
+   - Creazione dinamica dell'immagine Docker personalizzata con servizio SSH.
+   - Istanziazione del container iac-target-server.
+   - Esposizione automatizzata delle porte 2222 e 8080.
+   - Generazione degli output di connessione (outputs.tf).
+
+Configuration Management (Ansible):
+   - Definizione dell'inventario (inventory.ini) e parametri di sicurezza (ansible.cfg).
+   - Esecuzione del Playbook (playbook.yml): aggiornamento cache APT, installazione Nginx/Curl, deploy della pagina HTML e avvio del servizio web.
